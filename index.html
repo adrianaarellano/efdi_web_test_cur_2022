@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EfDI Interactive Map</title>
+  <style>
+    /* General page styling */
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f9f9f9;
+      color: #333;
+      text-align: center;
+    }
+
+    h1 {
+      margin-top: 20px;
+      color: #444;
+    }
+
+    /* Dropdown menu styling */
+    label {
+      font-size: 16px;
+      font-weight: bold;
+    }
+
+    select {
+      margin: 20px 0;
+      padding: 8px 12px;
+      font-size: 14px;
+    }
+
+    /* Loading animation styling */
+    #loading {
+      font-size: 18px;
+      font-style: italic;
+      color: #666;
+      margin-top: 20px;
+      display: none; /* Initially hidden */
+    }
+
+    /* iframe styling */
+    iframe {
+      width: 80%;
+      height: 800px;
+      border: 1px solid #ccc;
+      margin: 0 auto;
+      display: block;
+      background-color: #fff;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Page Title -->
+  <h1>Education for Democracy Index (EfDI) Interactive Maps</h1>
+
+  <!-- Dropdown Menu -->
+  <label for="mapSelector" title="Select a map to view different levels of the EfDI Index">
+    Select Map Level:
+  </label>
+  <select id="mapSelector" onchange="switchMap()">
+    <optgroup label="Overall Index">
+      <option value="efdi_all">EfDI All Indicators Index</option>
+      <option value="efdi_non_system">EfDI Non-System Index</option>
+    </optgroup>
+    <optgroup label="Subindexes">
+      <option value="cur_subindex">Curriculum Subindex</option>
+      <option value="train_subindex">Training Subindex</option>
+      <option value="ethos_subindex">Ethos Subindex</option>
+    </optgroup>
+    <optgroup label="Indicators - Curriculum">
+      <option value="cur_practice_2022">Curriculum Practice 2022</option>
+      <option value="cur_policy_2022">Curriculum Policy 2022</option>
+    </optgroup>
+    <optgroup label="Sub-Indicators - Practice">
+      <option value="cur_practice_learning_extent_2022">Learning Extent 2022</option>
+      <option value="cur_practice_learning_opportunity_2022">Learning Opportunity 2022</option>
+    </optgroup>
+    <optgroup label="Sub-Indicators - Policy">
+      <option value="cur_policy_formal_curriculum_2022">Formal Curriculum 2022</option>
+      <option value="cur_policy_different_programs_2022">Different Programs 2022</option>
+    </optgroup>
+  </select>
+
+  <!-- Dynamic Map Title -->
+  <h2 id="mapTitle">EfDI All Indicators Index</h2>
+
+  <!-- Loading Animation -->
+  <div id="loading">Loading map, please wait...</div>
+
+  <!-- Map iframe -->
+  <iframe id="mapFrame" 
+          src="https://adrianaarellano.github.io/efdi_index_all_2_11_24/"
+          onload="hideLoading()">
+  </iframe>
+
+  <!-- JavaScript for Map Switching -->
+  <script>
+    function switchMap() {
+      var mapFrame = document.getElementById("mapFrame");
+      var mapSelector = document.getElementById("mapSelector");
+      var mapTitle = document.getElementById("mapTitle");
+      var loading = document.getElementById("loading");
+
+      // Update map title
+      mapTitle.textContent = mapSelector.options[mapSelector.selectedIndex].text;
+
+      // Show loading animation
+      loading.style.display = "block";
+
+      // Clear iframe source first
+      mapFrame.src = "";
+
+      // Set the new iframe source after a short delay
+      setTimeout(function() {
+        switch (mapSelector.value) {
+          case "efdi_all":
+            mapFrame.src = "https://adrianaarellano.github.io/efdi_index_all_2_11_24/";
+            break;
+          case "efdi_non_system":
+            mapFrame.src = "https://adrianaarellano.github.io/efdi_index_non_system/";
+            break;
+          case "cur_subindex":
+            mapFrame.src = "https://adrianaarellano.github.io/cur_subindex/";
+            break;
+          case "cur_practice_2022":
+            mapFrame.src = "https://adrianaarellano.github.io/cur_practice_2022/";
+            break;
+          case "cur_policy_2022":
+            mapFrame.src = "https://adrianaarellano.github.io/cur_policy_2022/";
+            break;
+          case "cur_policy_formal_curriculum_2022":
+            mapFrame.src = "https://adrianaarellano.github.io/cur_policy_formal_curriculum_2022/";
+            break;
+          case "cur_policy_different_programs_2022":
+            mapFrame.src = "https://adrianaarellano.github.io/cur_policy_different_programs_2022/";
+            break;
+          case "cur_practice_learning_extent_2022":
+            mapFrame.src = "https://adrianaarellano.github.io/cur_practice_learning_extent_2022/";
+            break;
+          case "cur_practice_learning_opportunity_2022":
+            mapFrame.src = "https://adrianaarellano.github.io/cur_practice_learning_opportunity_2022/";
+            break;
+        }
+      }, 100); // Delay to avoid reload issues
+    }
+
+    // Hide the loading animation when iframe loads
+    function hideLoading() {
+      var loading = document.getElementById("loading");
+      loading.style.display = "none";
+    }
+  </script>
+
+</body>
+</html>
